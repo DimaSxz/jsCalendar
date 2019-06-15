@@ -18,6 +18,8 @@
             element,
             weekNums,
             date,
+            prevMonth: null,
+            nextMonth: null,
             getFirstDay: function() {
                 return new Date(`${this.date.getFullYear()}-${this.date.getMonth() + 1}-1`).getDay();
             },
@@ -67,20 +69,17 @@
                                 table += new Date(`${this.date.getFullYear()}-${this.date.getMonth() + 1}-${curDate + 1}`).getWeek();
                                 table += '</span>';
                             } else {
-                                if(i === 0 && ((this.weekNums && j - 1 === this.getFirstDay()) || !this.weekNums && j === this.getFirstDay())){
+                                if(i === 0 && ((this.weekNums && j - 1 === this.getFirstDay()) || !this.weekNums && j === this.getFirstDay())) {
                                     allowData = true;
                                 }
-                                else if(i === rows - 1 && curDate === this.getLastDate() + 1)
-                                {
+                                else if(i === rows - 1 && curDate === this.getLastDate() + 1) {
                                     allowData = false;
                                 }
 
                                 if(allowData) {
-
                                     table += curDate !== this.date.getDate()
                                         ? `<span>${curDate}</span>`
-                                        : `<span class=calendar__current-day>${curDate}</span>`
-                                    ;
+                                        : `<span class=calendar__current-day>${curDate}</span>`;
                                     curDate++;
                                 }
                             }
@@ -94,7 +93,6 @@
                 this.element.innerHTML = table + '</table></div>';
 
                 if(neighbor) {
-
                     const curElem = this.element.getElementsByClassName('calendar__current-month')[0];
                     const prevElem = document.createElement("div");
                     prevElem.className = "calendar__prev-month";
@@ -104,7 +102,6 @@
                     this.element.appendChild(nextElem);
 
                     this.prevMonth = new Calendar(prevElem, this.weekNums, new Date(`${this.date.getFullYear()}-${this.date.getMonth()}-1`), false);
-
                     this.nextMonth = new Calendar(nextElem, this.weekNums, new Date(`${this.date.getFullYear()}-${this.date.getMonth() + 2}-1`), false);
                 }
             }
