@@ -40,44 +40,45 @@
                 return date.getDate();
             },
             renderCalendar: async function() {
-                const rows = Math.ceil(this.getLastDate() / 7) + ((this.getLastDay() - this.getFirstDay()) >= 0 ? 0 : 1),
-                    columns = this.weekNums ? 8 : 7;
+                const that = this;
+                const rows = Math.ceil(that.getLastDate() / 7) + ((that.getLastDay() - that.getFirstDay()) >= 0 ? 0 : 1),
+                    columns = that.weekNums ? 8 : 7;
 
                 let curDate = 1, allowData = false;
 
                 let table = '<div class=calendar__current-month><table><thead><tr>';
 
-                if(this.weekNums)
+                if(that.weekNums)
                     table += '<th><span>№</span></th>';
 
-                table += '<th><span>Вс</span></th>';
-                table += '<th><span>Пн</span></th>';
-                table += '<th><span>Вт</span></th>';
-                table += '<th><span>Ср</span></th>';
-                table += '<th><span>Чт</span></th>';
-                table += '<th><span>Пт</span></th>';
-                table += '<th><span>Сб</span></th>';
-                table += '</tr></thead><tbody>';
+                table += '<th><span>Вс</span></th>'
+                        + '<th><span>Пн</span></th>'
+                        + '<th><span>Вт</span></th>'
+                        + '<th><span>Ср</span></th>'
+                        + '<th><span>Чт</span></th>'
+                        + '<th><span>Пт</span></th>'
+                        + '<th><span>Сб</span></th>'
+                        + '</tr></thead><tbody>';
 
 
                 for(let i = 0; i < rows; ++i) {
                     table += '<tr>';
                     for(let j = 0; j < columns; ++j) {
                         table += '<td>';
-                            if(this.weekNums && j === 0) {
+                            if(that.weekNums && j === 0) {
                                 table += '<span>';
-                                table += new Date(`${this.date.getFullYear()}-${this.date.getMonth() + 1}-${curDate + 1}`).getWeek();
+                                table += new Date(`${that.date.getFullYear()}-${that.date.getMonth() + 1}-${curDate + 1}`).getWeek();
                                 table += '</span>';
                             } else {
-                                if(i === 0 && ((this.weekNums && j - 1 === this.getFirstDay()) || !this.weekNums && j === this.getFirstDay())) {
+                                if(i === 0 && ((that.weekNums && j - 1 === that.getFirstDay()) || !that.weekNums && j === that.getFirstDay())) {
                                     allowData = true;
                                 }
-                                else if(i === rows - 1 && curDate === this.getLastDate() + 1) {
-                                    allowData = false;
+                                else if(i === rows - 1 && curDate === that.getLastDate() + 1) {
+                                    break;
                                 }
 
                                 if(allowData) {
-                                    table += curDate !== this.date.getDate()
+                                    table += curDate !== that.date.getDate()
                                         ? `<span>${curDate}</span>`
                                         : `<span class=calendar__current-day>${curDate}</span>`;
                                     curDate++;
@@ -90,19 +91,19 @@
 
                 table += '</tbody>';
 
-                this.element.innerHTML = table + '</table></div>';
+                that.element.innerHTML = table + '</table></div>';
 
                 if(neighbor) {
-                    const curElem = this.element.getElementsByClassName('calendar__current-month')[0];
+                    const curElem = that.element.getElementsByClassName('calendar__current-month')[0];
                     const prevElem = document.createElement("div");
                     prevElem.className = "calendar__prev-month";
                     const nextElem = document.createElement("div");
                     nextElem.className = "calendar__next-month";
-                    this.element.insertBefore(prevElem, curElem);
-                    this.element.appendChild(nextElem);
+                    that.element.insertBefore(prevElem, curElem);
+                    that.element.appendChild(nextElem);
 
-                    this.prevMonth = new Calendar(prevElem, this.weekNums, new Date(`${this.date.getFullYear()}-${this.date.getMonth()}-1`), false);
-                    this.nextMonth = new Calendar(nextElem, this.weekNums, new Date(`${this.date.getFullYear()}-${this.date.getMonth() + 2}-1`), false);
+                    that.prevMonth = new Calendar(prevElem, that.weekNums, new Date(`${that.date.getFullYear()}-${that.date.getMonth()}-1`), false);
+                    that.nextMonth = new Calendar(nextElem, that.weekNums, new Date(`${that.date.getFullYear()}-${that.date.getMonth() + 2}-1`), false);
                 }
             }
         };
