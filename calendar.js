@@ -39,7 +39,7 @@
 
                 return date.getDate();
             },
-            renderCalendar: function () {
+            renderCalendar: async function() {
                 const rows = Math.ceil(this.getLastDate() / 7) + ((this.getLastDay() - this.getFirstDay()) >= 0 ? 0 : 1),
                     columns = this.weekNums ? 8 : 7;
 
