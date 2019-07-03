@@ -67,7 +67,8 @@
             currentMonth = date.getMonth();
 
         for(let i = 1; i <= lastDate; ++i) {
-            const dateValue = year + '-' + (month + 1) + '-' + i;
+            date.setDate(i);
+            const dateValue = date.toString();
             const isPastDate = isPast(currentYear, currentMonth, i);
             calendar += '<td data-date="'
                             + dateValue + '" class="'
@@ -105,7 +106,7 @@
 
             for(const cell of calendarCells) {
                 cell.classList.add('calendar__day--btn');
-                cell.onfocus = options.selectFunction;
+                cell.onclick = options.selectFunction;
             }
         }
     };
